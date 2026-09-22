@@ -1,12 +1,13 @@
 import psutil
 import time
 
-def get_cpu_usage():
-    """Get the current CPU usage percentage.
-    
-    Returns:
-        float: The current CPU usage percentage."""
-    print(psutil.cpu_percent(interval=0.1, percpu=True))
+def get_cpu():
+    def cpu_percent():
+        print(psutil.cpu_percent(interval=0.1, percpu=True))
+        if 'cpupercent' in locals():
+            cpu_percent = locals()['cpupercent']
+            if cpu_percent is not None:
+                print(cpu_percent[0].current)
     print(psutil.cpu_times_percent(interval=1, percpu=True))
     print(psutil.cpu_count(logical=True))
     print(psutil.cpu_stats())
@@ -14,10 +15,6 @@ def get_cpu_usage():
     print(psutil.getloadavg(percpu=True, interval=1))
 
 def get_cpu_temperature():
-    """Get the current CPU temperature in Celsius.
-    
-    Returns:
-        float: The current CPU temperature in Celsius, or None if not available."""
     try:
         temps = psutil.sensors_temperatures()
         if 'coretemp' in temps:
@@ -28,10 +25,6 @@ def get_cpu_temperature():
         print(f"Error getting CPU temperature: {e}")
     return None
 def get_gpu_usage():
-    """Get the current GPU usage percentage.
-    
-    Returns:
-        float: The current GPU usage percentage, or None if not available."""
     try:
         import GPUtil
         gpus = GPUtil.getGPUs()
